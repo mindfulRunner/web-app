@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{% block title %} Edit "{{ event['title'] }}" {% endblock %}</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" name="title" placeholder="Event title"
+               class="form-control"
+               value="{{ request.form['title'] or event['title'] }}">
+    </div>
+
+    <div class="form-group">
+        <label for="content">Content</label>
+        <textarea name="content" placeholder="Event content"
+                  class="form-control">{{ request.form['content'] or event['content'] }}</textarea>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+
+<hr>
+
+<form action="{{ url_for('delete', id=event['id']) }}" method="POST">
+    <input type="submit" value="Delete Event"
+           class="btn btn-danager btn-sm"
+           onclick="return confirm('Are you sure you want to delete this event?')">
+</form>
+{% endblock %}

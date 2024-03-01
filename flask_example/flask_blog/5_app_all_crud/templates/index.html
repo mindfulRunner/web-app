@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Welcome to FlaskBlog {% endblock %}</h1>
+    {% for event in events %}
+        <a href="{{ url_for('event', event_id=event['id']) }}"><h2>{{ event['title'] }}</h2></a>
+        <span class="badge badge-primary">{{ event['created'] }}</span>
+        <a href="{{ url_for('edit', id=event['id']) }}">
+            <span class="badge badge-warning">Edit</span>
+        </a>
+        <hr>
+    {% endfor %}
+{% endblock %}
