@@ -70,6 +70,9 @@ Web Application
 			* Running on http://127.0.0.1:8000
 			Press CTRL+C to quit
 
+		- go to browser, run
+			http://localhost:8000
+
 	- for more advanced web page
 	-- 2_app_basic
 	-- 3_app_jinja_bootstrap
@@ -83,6 +86,8 @@ Web Application
 				FLASK_ENV=development
 				FLASK_RUN_PORT=5000
 
+		- need to add templates/index.html under 2_app_basic
+
 		- run flask (under project folder)
 			(my_venv) C:\a\z_jiajia\amsterdam\2024_02\computational_social_science\2_assignments\x\flash_blog>2_app_basic\flask run
 			* Serving Flask app 'app'
@@ -91,7 +96,8 @@ Web Application
 			* Running on http://127.0.0.1:5000
 			Press CTRL+C to quit
 
-		- need to add templates/index.html under 2_app_basic
+		- go to browser, run
+			http://localhost:5000
 
 	- DB
 	-- sqlite
@@ -115,6 +121,9 @@ Web Application
 			* Running on http://127.0.0.1:5002
 			Press CTRL+C to quit
 
+		- go to browser, run
+			http://localhost:5002
+
 		- after running the app,
 			- a database.db file will be created
 
@@ -127,10 +136,27 @@ Web Application
 				FLASK_ENV=development
 				FLASK_RUN_PORT=5003
 
-		- need to create database first
-			- executing init_db.sql will automatically create DB (database.db)
-				- python init_db.py
+		- NO need to create database because of adding db table auto detection and initialization
 
-		- run flask (under project folder)
+		- full run steps:
+			- deactivate virtual environment
+				(my_venv) C:\a\z_jiajia\amsterdam\2024_02\computational_social_science\2_assignments\web_python\flask_example>my_venv\Scripts\deactivate
+				C:\a\z_jiajia\amsterdam\2024_02\computational_social_science\2_assignments\web_python\flask_example>
+			
+			- activate virtual environment
+				C:\a\z_jiajia\amsterdam\2024_02\computational_social_science\2_assignments\web_python\flask_example>my_venv\Scripts\activate
+				(my_venv) C:\a\z_jiajia\amsterdam\2024_02\computational_social_science\2_assignments\web_python\flask_example
 
-		- 
+			- go to 5_app_all_crud and run flask
+				(my_venv) C:\a\z_jiajia\amsterdam\2024_02\computational_social_science\2_assignments\web_python\flask_example>cd flask_blog\5_app_all_crud
+
+				(my_venv) C:\a\z_jiajia\amsterdam\2024_02\computational_social_science\2_assignments\web_python\flask_example\flask_blog\5_app_all_crud>flask run
+				* Serving Flask app 'app'
+				* Debug mode: off
+				WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+				* Running on http://127.0.0.1:5003
+				Press CTRL+C to quit
+
+			- go to browser, run
+				http://localhost:5003
+				
