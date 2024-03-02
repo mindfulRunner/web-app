@@ -1,3 +1,4 @@
+import os
 import sqlite3
 from flask import Flask, render_template, request, url_for, flash, redirect
 from werkzeug.exceptions import abort
@@ -7,6 +8,9 @@ app.config['SECRET_KEY'] = 'your secret key'
 
 @app.route('/')
 def index():
+    if not does_db_table_exist():
+        print('calling init_db.py to create `events` table')
+        os.system('python init_db.py')
     conn = get_db_connection()
     events = conn.execute('SELECT * FROM events').fetchall()
     conn.close()
@@ -78,3 +82,16 @@ def get_event(event_id):
     if event is None:
         abort(404)
     return event
+
+def does_db_table_exist():
+    try:
+        conn = sqlite3.connect('database.db')
+        print('connected to `database.db`')
+    except sqlite3.Error:
+        print('`database.db` does not exist')
+    events_table = conn.execute("SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'events'").fetchone()
+    if events_table:
+        print("`events` table exists")
+    else:
+        print("`events` table does not exist")
+    return events_table
