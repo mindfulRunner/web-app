@@ -47,6 +47,15 @@ Flask setup
 
 
 
+DB
+	- for SQLite (sqlite3), there is no need to install SQLite database separately
+		- this is because
+			- SQLite is an embedded database (not a standard database)
+			- it sits directly inside the Python SQLite lib
+				- https://stackoverflow.com/questions/24410124/does-python-sqlite3-library-need-sqlite-to-be-installed
+				
+
+
 Web Application
 ---------------------------------------------------------------------
 	- need to create .env for each app
