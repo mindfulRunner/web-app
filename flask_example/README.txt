@@ -54,6 +54,10 @@ DB
 			- it is already included inside the Python sqlite3 lib (from `pip install`)
 				- https://stackoverflow.com/questions/24410124/does-python-sqlite3-library-need-sqlite-to-be-installed
 				
+	- how to view database, table, data in SQLite3?
+		- install `DB Browser for SQLite`
+			- https://sqlitebrowser.org/
+				DB Browser for SQLite
 
 
 Web Application
@@ -168,4 +172,10 @@ Web Application
 
 			- go to browser, run
 				http://localhost:5003
-				
+
+		- after running the app,
+			- a database.db file will be created / updated
+				- can use `DB Browser for SQLite` to open / view database.db
+					- C:\a\z_jiajia\amsterdam\2024_02\computational_social_science\2_assignments\web_python\flask_example\flask_blog\5_app_all_crud\database.db
+		
+		
