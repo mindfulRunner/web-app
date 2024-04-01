@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Sign up {% endblock %}</h1>
+    <form method="POST">
+        <table>
+            <tr>
+                <td>
+                    <label for="email">Email</label>
+                </td>
+                <td>
+                    <input type="email"
+                           name="email"
+                           placeholder="email"
+                           value="{{ request.form['email'] }}"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="password">Password</label>
+                </td>
+                <td>
+                    <input type="pasword"
+                           name="password"
+                           placeholder="password"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                </td>
+                <td>
+                    <button type="submit"
+                            class="btn btn-primary">
+                            Submit
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </form>
+{% endblock %}
