@@ -6,6 +6,28 @@
         <table>
             <tr>
                 <td>
+                    <label for="first_name">First Name</label>
+                </td>
+                <td>
+                    <input type="text"
+                           name="first_name"
+                           placeholder="first name"
+                           value="{{ request.form['first_name'] }}"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="last_name">Last Name</label>
+                </td>
+                <td>
+                    <input type="text"
+                           name="last_name"
+                           placeholder="last name"
+                           value="{{ request.form['last_name'] }}"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
                     <label for="email">Email</label>
                 </td>
                 <td>
@@ -20,14 +42,34 @@
                     <label for="password">Password</label>
                 </td>
                 <td>
-                    <input type="pasword"
+                    <input type="password"
                            name="password"
                            placeholder="password"/>
                 </td>
             </tr>
             <tr>
                 <td>
-
+                    <input type="checkbox"
+                           id="admin_check"
+                           onclick="toggle_admin_check()">
+                           Admin Login?
+                    </input>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr id="admin_code_row" style="display: none;">
+                <td>
+                    <label for="admin_code">Admin Code</label>
+                </td>
+                <td>
+                    <input type="password"
+                           name="admin_code"
+                           placeholder="admin code"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
                 </td>
                 <td>
                     <button type="submit"
@@ -38,4 +80,24 @@
             </tr>
         </table>
     </form>
+
+    <script>
+        window.onload = function() {
+            let checkbox = document.getElementById('admin_check');
+            checkbox['checked'] = false;
+        }
+
+        function toggle_admin_check() {
+            let checkbox = document.getElementById('admin_check');
+            let is_checked = checkbox['checked'];
+            let admin_check_row = document.getElementById('admin_code_row');
+            if (is_checked) {
+                // https://developer.mozilla.org/en-US/docs/Web/CSS/display
+                // `content` can keep cells not flow stretched in Firefox
+                admin_check_row.style.display = 'contents'; // maybe Firfox specific
+            } else {
+                admin_check_row.style.display = 'none';
+            }
+        }
+    </script>
 {% endblock %}

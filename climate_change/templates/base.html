@@ -28,11 +28,15 @@
                         <a class="nav-link" href="#">SOLUTIONS</a>
                     </li>
                     <li class="navbar-item">
-                        <a class="nav-link" href="#">COMMUNITY</a>
+                        <a class="nav-link" href="{{ url_for('forum') }}">COMMUNITY</a>
                     </li>
                 </ul>
             </div>
-            <a class="navbar-brand" href="{{ url_for('signin') }}">Sign in</a>
+            {% if session['signed_in'] %}
+                <a class="navbar-brand" href="{{ url_for('signout') }}">Sign out</a>
+            {% else %}
+                <a class="navbar-brand" href="{{ url_for('signin') }}">Sign in</a>
+            {% endif %}
         </nav>
         <div class="container">
             {% for message in get_flashed_messages() %}
