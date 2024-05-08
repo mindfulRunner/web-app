@@ -5,7 +5,7 @@ class ForumDB(DB):
         super().__init__(DB.FORUM_DB, DB.FORUM_MAIN_TABLE)
 
     def create_table(self):
-        super().execute_script('db/schema.sql')
+        super().execute_script('data/schema.sql')
 
     def create_user(self, first_name, last_name, email, salt, password_hash, is_admin):
         sql, args = 'INSERT INTO user (first_name, last_name, email, salt, password_hash, is_admin) VALUES (?, ?, ?, ?, ?, ?)', (first_name, last_name, email, salt, password_hash, is_admin)
@@ -38,3 +38,32 @@ class ForumDB(DB):
         sql, args = 'SELECT * FROM comment', ()
         comments = super().select_all(sql, args)
         return comments
+    
+    def increment_web_page_visit_count(self, web_page, user_email):
+        sql, args = 'SELECT visit_count FROM web_page_count WHERE web_page = ? AND user_email = ?', (web_page, user_email)
+        visit_count = super().select_one(sql, args)
+        visit_count = 0 if not visit_count else visit_count[0] # if visit_count is None, set it to 0. Otherwise, get its 1st row
+        visit_count += 1
+        # if this is 1st one, insert it
+        # otherwise, update it
+        if visit_count == 1:
+            sql, args = 'INSERT INTO web_page_count (visit_count, web_page, user_email) VALUES (?, ?, ?)', (visit_count, web_page, user_email)
+            super().insert(sql, args)
+        else:
+            sql, args = 'UPDATE web_page_count SET visit_count = ? WHERE web_page = ? AND user_email = ?', (visit_count, web_page, user_email)
+            super().update(sql, args)
+    
+    def get_web_page_visit_count_by_user(self, web_page, user_email):
+        sql, args = 'SELECT visit_count FROM web_page_count WHERE web_page = ? AND user_email = ?', (web_page, user_email)
+        count = super().select_one(sql, args)
+        return count
+    
+    def get_web_page_visit_count(self, web_page):
+        sql, args = 'SELECT visit_count FROM web_page_count WHERE web_page = ?', (web_page)
+        count = super().select_one(sql, args)
+        return count
+    
+    def get_web_site_visit_count(self):
+        sql, args = 'SELECT web_page, user_email, visit_count FROM web_page_count ORDER BY web_page, user_email', ()
+        visit_report = super().select_all(sql, args)
+        return visit_report

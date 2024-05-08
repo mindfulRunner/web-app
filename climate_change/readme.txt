@@ -18,8 +18,7 @@ Flask project setup steps:
             - (run_venv) C:\a\z_jiajia\amsterdam\2024_02\computational_social_science\2_assignments\web_python\climate_change>pip install flask
 
     - check Flask installation status
-        (run_venv) C:\a\z_jiajia\amsterdam\2024_02\computational_social_science\2_assignments\web_python\climate_change>flask --
-        version
+        (run_venv) C:\a\z_jiajia\amsterdam\2024_02\computational_social_science\2_assignments\web_python\climate_change>flask --version
         Python 3.12.2
         Flask 3.0.2
         Werkzeug 3.0.1
@@ -34,3 +33,29 @@ Bootstrap
 
     - W3Schools Color Picker
         - https://www.w3schools.com/colors/colors_picker.asp
+
+Online CSV reader
+    - Tablecruncher
+        - https://app.tablecruncher.com/
+
+Pandas
+    - https://pandas.pydata.org/docs/reference/index.html
+    - https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.sum.html
+
+    - pip install pandas
+
+PySpark
+    - https://spark.apache.org/docs/3.5.1/api/python/reference/pyspark.sql/api/pyspark.sql.SparkSession.read.html#pyspark.sql.SparkSession.read
+
+Matplotlib
+    - https://matplotlib.org/stable/api/index.html
+    - https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html
+    - https://www.w3schools.com/python/matplotlib_pyplot.asp
+
+    - pip install matplotlib
+
+Seaborn
+    - https://seaborn.pydata.org/api.html
+    - https://www.w3schools.com/python/numpy/numpy_random_seaborn.asp
+
+    - pip install seaborn

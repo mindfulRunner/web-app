@@ -9,6 +9,7 @@
         {% for comment in find_comments_by_forum_id(forum, comments) %}
             - comment: {{ comment['comment'] }} by {{ find_user_by_email(users, comment['user_email'])['first_name'] }} <br/>
         {% endfor %}
+        <br/>
         {% if session['signed_in'] %}
             <a href="{{ url_for('create_comment', forum_id=forum['id']) }}">New Comment</a>
         {% endif %}

@@ -19,17 +19,22 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="navbar-item">
-                        <a class="nav-link" href="#">FACTS</a>
+                        <a class="nav-link" href="{{ url_for('facts') }}">FACTS</a>
                     </li>
                     <li class="navbar-item">
-                        <a class="nav-link" href="#">NEWS</a>
+                        <a class="nav-link" href="{{ url_for('news') }}">NEWS</a>
                     </li>
                     <li class="navbar-item">
-                        <a class="nav-link" href="#">SOLUTIONS</a>
+                        <a class="nav-link" href="{{ url_for('solutions') }}">SOLUTIONS</a>
                     </li>
                     <li class="navbar-item">
                         <a class="nav-link" href="{{ url_for('forum') }}">COMMUNITY</a>
                     </li>
+                    {% if session['signed_in'] and session['is_admin'] %}
+                    <li class="navbar-item">
+                        <a class="nav-link" href="{{ url_for('visit_count') }}">Visit Count</a>
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
             {% if session['signed_in'] %}

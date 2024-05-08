@@ -29,3 +29,10 @@ CREATE TABLE comment (
     FOREIGN KEY(forum_id) REFERENCES forum(id),
     FOREIGN KEY(user_email) REFERENCES user(email)
 );
+
+CREATE TABLE web_page_count (
+    web_page TEXT NOT NULL,
+    user_email TEXT NOT NULL DEFAULT 'nobody@nobody',
+    visit_count INTEGER NOT NULL,
+    PRIMARY KEY(web_page, user_email)
+);

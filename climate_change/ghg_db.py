@@ -10,6 +10,11 @@ class GHG_DB(DB):
     def __init__(self):
         super().__init__(DB.GHG_DB, DB.GHG_MAIN_TABLE)
 
+    def select():
+        sql, args = 'SELECT * FROM ghg'
+        ghg_data = super().select_all(sql, args)
+        return ghg_data
+
     # create_table = '''
     # CREATE TABLE ghg(
     # ObjectId,
@@ -62,12 +67,12 @@ class GHG_DB(DB):
             if i < len(splitted_csv_columns) - 1:
                 csv_column_data_types += ',\n'
 
-        create_table_sql = 'CREATE TABLE ghg(\n' + csv_column_data_types + ')'
+        create_table_sql = 'CREATE TABLE ghg (\n' + csv_column_data_types + ')'
         args = ()
         super().execute(create_table_sql, args)
 
     def insert_data(self):
-        file = open('db/Quarterly_Greenhouse_Gas_(GHG)_Air_Emissions_Accounts.csv')
+        file = open('data/Quarterly_Greenhouse_Gas_(GHG)_Air_Emissions_Accounts.csv')
 
         contents = csv.reader(file)
 
@@ -75,6 +80,6 @@ class GHG_DB(DB):
         question_mark_arr = ['?'] * len(splitted_csv_columns)
         question_marks = ','.join(question_mark_arr)
 
-        insert_record_sql = 'INSERT INTO ghg(' + GHG_DB.CSV_COLUMNS + ') VALUES (' +  question_marks + ')'
+        insert_record_sql = 'INSERT INTO ghg (' + GHG_DB.CSV_COLUMNS + ') VALUES (' +  question_marks + ')'
 
         super().insert_many(insert_record_sql, contents)

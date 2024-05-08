@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Visit Report {% endblock %}</h1>
+    <table border="1">
+        <th>Web Page</th>
+        <th>User</th>
+        <th>Visit Count</th>
+    {% for visit_report_row in visit_report %}
+        <tr>
+            <td>{{ visit_report_row['web_page'] }}</td>
+            <td>{{ visit_report_row['user_email'] }}</td>
+            <td>{{ visit_report_row['visit_count'] }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+{% endblock %}

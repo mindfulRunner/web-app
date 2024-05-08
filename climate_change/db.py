@@ -7,11 +7,11 @@
 import sqlite3
 
 class DB:
-    FORUM_DB = 'forum.db'
+    FORUM_DB = 'db/forum.db'
     FORUM_MAIN_TABLE = 'user'
 
     # GHG - green house gas
-    GHG_DB = 'ghg.db'
+    GHG_DB = 'db/ghg.db'
     GHG_MAIN_TABLE = 'ghg'
     
     def __init__(self, db_name, main_table_name):
@@ -23,10 +23,7 @@ class DB:
         self.execute(sql, args)
 
     def insert_many(self, sql, args):
-        conn = self.get_db_connection()
-        conn.executemany(sql, args)
-        conn.commit()
-        conn.close()
+        self.execute_many(sql, args)
     
     def select_one(self, sql, args):
         conn = self.get_db_connection()
@@ -42,11 +39,22 @@ class DB:
         conn.close()
         return res
     
+    def update(self, sql, args):
+        self.execute(sql, args)
+    
     def execute(self, sql, args):
         conn = self.get_db_connection()
-        conn.execute(sql, args)
+        res = conn.execute(sql, args)
         conn.commit()
         conn.close()
+        return res
+    
+    def execute_many(self, sql, args):
+        conn = self.get_db_connection()
+        res = conn.executemany(sql, args)
+        conn.commit()
+        conn.close()
+        return res
     
     def execute_script(self, script):
         conn = self.get_db_connection()

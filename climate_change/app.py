@@ -10,9 +10,27 @@ _forum_db = ForumDB()
 _ghg_db = GHG_DB()
 _admin_code = '123' # given to super user by administrator
 
+NOBODY_EMAIL = 'nobody@nobody'
+
 @app.route('/')
 def index():
+    increment_web_page_visit_count('index.html')
     return render_template('index.html')
+
+@app.route('/facts')
+def facts():
+    increment_web_page_visit_count('facts.html')
+    return render_template('facts.html')
+
+@app.route('/news')
+def news():
+    increment_web_page_visit_count('news.html')
+    return render_template('news.html')
+
+@app.route('/solutions')
+def solutions():
+    increment_web_page_visit_count('solutions.html')
+    return render_template('solutions.html')
 
 @app.route('/signup', methods=('GET', 'POST'))
 def signup():
@@ -37,6 +55,7 @@ def signup():
                 _forum_db.create_user(first_name, last_name, email, salt, password_hash, is_admin)
                 return redirect(url_for('signin'))
 
+    increment_web_page_visit_count('signup.html')
     return render_template('signup.html')
 
 @app.route('/signin', methods=('GET', 'POST'))
@@ -72,11 +91,15 @@ def signin():
                         session['email'] = user['email']
                         return redirect(url_for('index'))
 
+    increment_web_page_visit_count('signin.html')
     return render_template('signin.html')
 
 @app.route('/signout', methods=('GET',))
 def signout():
     session['signed_in'] = False
+    session['is_admin'] = False
+    session['email'] = NOBODY_EMAIL
+    increment_web_page_visit_count('index.html')
     return render_template('index.html')
 
 @app.route('/forum', methods=('GET',))
@@ -84,6 +107,7 @@ def forum():
     forums = _forum_db.get_all_forums()
     comments = _forum_db.get_all_comments()
     users = _forum_db.get_all_users()
+    increment_web_page_visit_count('forum.html')
     return render_template('forum.html', forums=forums, comments=comments, users=users, find_comments_by_forum_id=find_comments_by_forum_id, find_user_by_email=find_user_by_email)
 
 def find_comments_by_forum_id(forum, all_comments):
@@ -109,6 +133,7 @@ def create_forum():
         else:
             _forum_db.create_forum(topic, user_email)
             return redirect(url_for('forum'))
+    increment_web_page_visit_count('create_forum.html')
     return render_template('create_forum.html')
 
 @app.route('/forum/<int:forum_id>/create_comment', methods=('GET', 'POST'))
@@ -121,4 +146,15 @@ def create_comment(forum_id):
         else:
             _forum_db.create_comment(comment, forum_id, user_email)
             return redirect(url_for('forum'))
+    increment_web_page_visit_count('create_comment.html')
     return render_template('create_comment.html')
+
+@app.route('/visit_count', methods=('GET',))
+def visit_count():
+    visit_report = _forum_db.get_web_site_visit_count()
+    increment_web_page_visit_count('visit_count')
+    return render_template('visit_count.html', visit_report=visit_report)
+
+def increment_web_page_visit_count(web_page):
+    user_email = session['email'] if 'email' in session.keys() else NOBODY_EMAIL
+    _forum_db.increment_web_page_visit_count(web_page, user_email)
