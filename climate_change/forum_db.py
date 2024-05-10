@@ -39,6 +39,26 @@ class ForumDB(DB):
         comments = super().select_all(sql, args)
         return comments
     
+    def get_all_comments_by_forum_id(self, forum_id):
+        sql, args = 'SELECT * FROM comment WHERE forum_id = ?', (forum_id,)
+        comments = super().select_all(sql, args)
+        return comments
+    
+    def delete_forum(self, forum_id):
+        # first, delete all comments belonging to this forum
+        comments = self.get_all_comments_by_forum_id(forum_id)
+        for comment in comments:
+            comment_id = comment['id']
+            self.delete_comment(comment_id)
+
+        # then delete the forum itself
+        sql, args = 'DELETE FROM forum WHERE id = ?', (forum_id,)
+        super().delete(sql, args)
+    
+    def delete_comment(self, comment_id):
+        sql, args = 'DELETE FROM comment WHERE id = ?', (comment_id,)
+        super().delete(sql, args)
+    
     def increment_web_page_visit_count(self, web_page, user_email):
         sql, args = 'SELECT visit_count FROM web_page_count WHERE web_page = ? AND user_email = ?', (web_page, user_email)
         visit_count = super().select_one(sql, args)

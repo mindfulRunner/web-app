@@ -149,6 +149,22 @@ def create_comment(forum_id):
     increment_web_page_visit_count('create_comment.html')
     return render_template('create_comment.html')
 
+# DELETE / PUT can't be used as only GET / POST are supported - use POST instead
+# https://stackoverflow.com/questions/5162960/should-put-and-delete-be-used-in-forms
+# @app.route('/forum/<int:forum_id>/delete_forum', methods=('DELETE',))
+@app.route('/forum/<int:forum_id>/delete_forum', methods=('POST',))
+def delete_forum(forum_id):
+    _forum_db.delete_forum(forum_id)
+    return redirect(url_for('forum'))
+
+# DELETE / PUT can't be used as only GET / POST are supported - use POST instead
+# https://stackoverflow.com/questions/5162960/should-put-and-delete-be-used-in-forms
+# @app.route('/forum/<int:comment_id>/delete_comment', methods=('DELETE',))
+@app.route('/forum/<int:comment_id>/delete_comment', methods=('POST',))
+def delete_comment(comment_id):
+    _forum_db.delete_comment(comment_id)
+    return redirect(url_for('forum'))
+
 @app.route('/visit_count', methods=('GET',))
 def visit_count():
     visit_report = _forum_db.get_web_site_visit_count()

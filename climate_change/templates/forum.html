@@ -4,22 +4,53 @@
     <h1>{% block title %} Forum {% endblock %}</h1>
     <hr/>
 
+    <table>
     {% for forum in forums %}
-        <h5>Topic: {{ forum['topic'] }} by {{ forum['user_email'] }}</h5><br/>
+        <tr>
+            <td>
+                <h5>Topic: {{ forum['topic'] }} by {{ forum['user_email'] }}</h5>
+            </td>
+            <td>
+                {% if session['signed_in'] and session['is_admin'] %}
+                <form action="{{ url_for('delete_forum', forum_id=forum['id']) }}" method="POST">
+                    <input type="image" src="static/icon/delete_small.png" alt="Submit" onclick="return confirm('Delete this forum?')">
+                </form>
+                {% endif %}
+            </td>
+        <br/>
+        </tr>
         {% for comment in find_comments_by_forum_id(forum, comments) %}
-            - comment: {{ comment['comment'] }} by {{ find_user_by_email(users, comment['user_email'])['first_name'] }} <br/>
+        <tr>
+            <td>
+                - comment: {{ comment['comment'] }} by {{ find_user_by_email(users, comment['user_email'])['first_name'] }}
+            </td>
+            <td>
+                {% if session['signed_in'] and session['is_admin'] %}
+                <form action="{{ url_for('delete_comment', comment_id=comment['id']) }}" method="POST">
+                    <input type="image" src="static/icon/delete_smaller.png" alt="Submit" onclick="return confirm('Delete this comment?')">
+                </form>
+                {% endif %}
+            </td>
+            <br/>
+        </tr>
         {% endfor %}
         <br/>
-        {% if session['signed_in'] %}
-            <a href="{{ url_for('create_comment', forum_id=forum['id']) }}">New Comment</a>
-        {% endif %}
-
-        <hr/>
+        <tr>
+            <td colspan="2">
+                {% if session['signed_in'] %}
+                    <a href="{{ url_for('create_comment', forum_id=forum['id']) }}">New Comment</a>
+                {% endif %}
+            </td>
+        </tr>
     {% endfor %}
     
-    {% if session['signed_in'] and session['is_admin'] %}
-        <a href="{{ url_for('create_forum') }}">New Topic</a>
-    {% endif %}
-
+        <tr>
+            <td colspan="2">
+                {% if session['signed_in'] and session['is_admin'] %}
+                    <a href="{{ url_for('create_forum') }}">New Topic</a>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
     <hr/>
 {% endblock %}

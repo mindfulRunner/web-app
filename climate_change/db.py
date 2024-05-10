@@ -41,6 +41,9 @@ class DB:
     
     def update(self, sql, args):
         self.execute(sql, args)
+
+    def delete(self, sql, args):
+        self.execute(sql, args)
     
     def execute(self, sql, args):
         conn = self.get_db_connection()

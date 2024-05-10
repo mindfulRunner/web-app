@@ -1,3 +1,7 @@
+GitHub
+    https://github.com/mindfulRunner/web-app
+
+
 Data source:
     https://climatedata.imf.org/pages/access-data
 
@@ -26,6 +30,9 @@ Flask project setup steps:
     - install dotenv
         - pip install python-dotenv
             - (run_venv) C:\a\z_jiajia\amsterdam\2024_02\computational_social_science\2_assignments\web_python\climate_change>pip install python-dotenv
+
+    - HTML form doesn't support PUT / DELETE, need to use POST instead
+        - https://stackoverflow.com/questions/5162960/should-put-and-delete-be-used-in-forms
 
 Bootstrap
     - navbar color
