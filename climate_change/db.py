@@ -5,16 +5,20 @@
 #
 
 import sqlite3
+import os
 
 class DB:
-    FORUM_DB = 'db/forum.db'
+    DB_DIR = 'db'
+
+    FORUM_DB = DB_DIR + '/' + 'forum.db'
     FORUM_MAIN_TABLE = 'user'
 
     # GHG - green house gas
-    GHG_DB = 'db/ghg.db'
+    GHG_DB = DB_DIR + '/' + 'ghg.db'
     GHG_MAIN_TABLE = 'ghg'
     
     def __init__(self, db_name, main_table_name):
+        self.create_dir(DB.DB_DIR)
         self.db_name = db_name
         self.main_table_name = main_table_name
         self.init_db()
@@ -66,6 +70,10 @@ class DB:
             conn.commit()
             conn.close()
     
+    def create_dir(self, dir_name):
+        if not os.path.exists(dir_name):
+            os.mkdir(dir_name)
+
     def init_db(self):
         sql = f"SELECT name FROM sqlite_master WHERE type = 'table' and name = '{self.main_table_name}'"
         args = ()

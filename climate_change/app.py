@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from forum_db import ForumDB
 from ghg_db import GHG_DB
 import password_util
+import email_util
+import uuid
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'some secret key'
@@ -101,6 +103,50 @@ def signout():
     session['email'] = NOBODY_EMAIL
     increment_web_page_visit_count('index.html')
     return render_template('index.html')
+
+@app.route('/forgot_password_1', methods=('GET', 'POST'))
+def forgot_password_1():
+    if request.method == 'POST':
+        email = request.form['email']
+        user = _forum_db.select_user(email)
+        if not user:
+            flash("'" + email + "' not found")
+            return render_template('forgot_password_1.html')
+        token = uuid.uuid4().hex
+        session['token'] = token
+        email_util.send(email, token)
+        message = 'Please follow email instruction (at ' + email  + ') to get the temporary password.'
+        flash(message)
+        return redirect(url_for('forgot_password_2', email=email))
+    return render_template('forgot_password_1.html')
+
+@app.route('/forgot_password_2', methods=('GET', 'POST'))
+def forgot_password_2():
+    if request.method == 'POST':
+        email = request.args.get('email')
+        temp_password = request.form['temp_password']
+        if temp_password != session['token']:
+            message = 'Please follow email instruction (at ' + email  + ') to get the temporary password.'
+            flash(message)
+            return render_template('forgot_password_2.html', email=email)
+        return redirect(url_for('reset_password', email=email))
+    return render_template('forgot_password_2.html')
+
+@app.route('/reset_password', methods=('GET', 'POST'))
+def reset_password():
+    if request.method == 'POST':
+        email = request.args.get('email')
+        password = request.form['password']
+        repeat_password = request.form['repeat_password']
+        if password != repeat_password:
+            flash("Password and Repeat Password must be same.")
+            return render_template('reset_password.html', email=email)
+        user = _forum_db.select_user(email)
+        salt = user['salt']
+        new_password_hash = password_util.hash_password(password, salt)
+        _forum_db.update_password(email, new_password_hash)
+        return redirect(url_for('signin'))
+    return render_template('reset_password.html')
 
 @app.route('/forum', methods=('GET',))
 def forum():

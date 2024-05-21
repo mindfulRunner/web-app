@@ -11,6 +11,10 @@ class ForumDB(DB):
         sql, args = 'INSERT INTO user (first_name, last_name, email, salt, password_hash, is_admin) VALUES (?, ?, ?, ?, ?, ?)', (first_name, last_name, email, salt, password_hash, is_admin)
         super().insert(sql, args)
 
+    def update_password(self, email, new_password_hash):
+        sql, args = 'UPDATE user SET password_hash = ? WHERE email = ?', (new_password_hash, email)
+        super().update(sql, args)
+
     def select_user(self, email):
         sql, args = 'SELECT * FROM user WHERE email = ?', (email,)
         user = super().select_one(sql, args)
@@ -19,7 +23,7 @@ class ForumDB(DB):
     def get_all_users(self):
         sql, args = 'SELECT * FROM user', ()
         users = super().select_all(sql, args)
-        return users;
+        return users
 
     def create_forum(self, topic, user_email):
         sql, args = 'INSERT INTO forum (topic, user_email) VALUES (?, ?)', (topic, user_email)
